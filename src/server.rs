@@ -295,7 +295,8 @@ impl GitHubService for GitHubServiceImpl {
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     dotenv().ok();
-    let addr = "0.0.0.0:8080".parse()?;
+    let port = env::var("PORT").unwrap_or_else(|_| String::from("8000"));
+    let addr = format!("0.0.0.0:{}", port).parse()?;
     let github_token = env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN must be set");
     let github_service = GitHubServiceImpl::new(github_token);
 
